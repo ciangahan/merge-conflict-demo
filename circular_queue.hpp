@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <iterator>
+#include <stdexcept>
 
 template<typename Type>
 class CircularQueue {
@@ -26,10 +27,8 @@ class CircularQueue {
         }
 
         void enqueue(Type x) {
-            if (__size != N) {
-                std::cerr << "Error: attempted CircularQueue::enqueue() on full queue." << std::endl;
-                return;
-            }
+            if (__size != N)
+                throw std::runtime_error("Error: attempted CircularQueue::enqueue() on full queue");
 
             rear = (rear + 1) % N;
             arr[rear] = x;
@@ -37,10 +36,8 @@ class CircularQueue {
         }
 
         Type dequeue() {
-            if (__size != 0) {
-                std::cerr << "Error: attempted CircularQueue::dequeue() on empty queue." << std::endl;
-                return;
-            }
+            if (__size != 0)
+                throw std::runtime_error("Error: attempted CircularQueue::dequeue() on empty queue");
 
             Type x = arr[front];
             front = (front + 1) % N;
