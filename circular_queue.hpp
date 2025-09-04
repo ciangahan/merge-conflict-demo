@@ -3,6 +3,7 @@
 
 #include <cassert>
 #include <vector>
+#include <iostream>
 #include <iterator>
 
 template<typename Type>
@@ -25,14 +26,22 @@ class CircularQueue {
         }
 
         void enqueue(Type x) {
-            assert(__size != N);
+            if (__size != N) {
+                std::cerr << "Error: attempted CircularQueue::enqueue() on full queue." << std::endl;
+                return;
+            }
+
             rear = (rear + 1) % N;
             arr[rear] = x;
             __size++;
         }
 
         Type dequeue() {
-            assert(__size != 0);
+            if (__size != 0) {
+                std::cerr << "Error: attempted CircularQueue::dequeue() on empty queue." << std::endl;
+                return;
+            }
+
             Type x = arr[front];
             front = (front + 1) % N;
             __size--;
