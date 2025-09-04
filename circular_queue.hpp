@@ -4,6 +4,7 @@
 #include <cassert>
 #include <vector>
 #include <iterator>
+#include <stdexcept>
 
 template<typename Type>
 class CircularQueue {
@@ -25,14 +26,18 @@ class CircularQueue {
         }
 
         void enqueue(Type x) {
-            assert(__size != N);
+            if (__size != N)
+                throw std::runtime_error("Error: attempted CircularQueue::enqueue() on full queue");
+
             rear = (rear + 1) % N;
             arr[rear] = x;
             __size++;
         }
 
         Type dequeue() {
-            assert(__size != 0);
+            if (__size != 0)
+                throw std::runtime_error("Error: attempted CircularQueue::dequeue() on empty queue");
+
             Type x = arr[front];
             front = (front + 1) % N;
             __size--;
